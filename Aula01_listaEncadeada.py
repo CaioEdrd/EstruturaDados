@@ -11,12 +11,6 @@ class ListaEnc:
         self.__topo = None
         self.__final = None
 
-    def __str__(self):
-        if self.__topo:
-            return str(self.tam())
-        else:
-            return "Vazio"
-
     def vazio(self): #Verificação da lista, se está vazia
         return self.__topo == None
 
@@ -43,13 +37,50 @@ class ListaEnc:
 
         while True:
             print(self.__topo)
+    
+    def __str__(self):
+        # if self.__topo:
+        #     return str(self.tam())
+        # else:
+        #     return "Vazio"
+        if self.vazio(): return "[]"
+
+        p = self.__topo
+        r="["
+        while p != None:
+            r = r + f"{p.valor},"
+            p = p.proximo
+        r=r[:-1] + "]"
+        return r
+    
+    def delet(self, val):
+        if self.vazio(): return False
+
+        if self.__topo.valor == val:
+            self.__topo = self.__topo.proximo
+            return True
+
+        p = self.__topo
+        a = None
+        while p != None:
+            if p.valor == val:
+                a.proximo = p.proximo
+                return True
+            a = p 
+            p = p.proximo
+        return False
 
 
 l1 = ListaEnc()
 l1.adicao(1)
 l1.adicao(10)
+l1.adicao(20)
 print(l1)
 print(l1.tam())
+l1.delet(10)
+print(l1)
+print(l1.tam())
+
 
 '''
 #Forma manual de implementação na lista
