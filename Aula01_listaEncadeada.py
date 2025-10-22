@@ -22,6 +22,29 @@ class ListaEnc:
             self.__final.proximo = n
         self.__final = n
 
+    def __getNo(self, val):
+        if self.vazio() : return None
+        p = self.__topo
+        while p!= None:
+            if p.valor == val:
+                return p
+        p = p.proximo
+
+        return None
+    
+    def existe(self, val):
+        return self.__getNo(val) != None
+
+    def inserir(self, valRef, val):
+        noRef = self.__getNo(valRef)
+
+        if noRef == None:
+            return False
+
+        n = No(val, noRef.proximo)
+        noRef.proximo = n
+        return True
+
     def tam(self):
         if self.vazio(): return 0
 
@@ -80,6 +103,9 @@ print(l1.tam())
 l1.delet(10)
 print(l1)
 print(l1.tam())
+
+l1.inserir(10,5)
+print(l1)
 
 
 '''
