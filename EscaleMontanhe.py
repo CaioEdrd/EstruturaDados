@@ -464,36 +464,12 @@ def listar_opcoes(caminho):
         items.append((str(i), descricao_short, destino.id, label))
     return items
 
-#validação dos nós
-# def validar_alcancabilidade(raiz, todos_nodes):
-#     # checa alcance por DFS
-#     visitados = set()
-#     stack = [raiz]
-#     while stack:
-#         cur = stack.pop()
-#         if cur.id in visitados:
-#             continue
-#         visitados.add(cur.id)
-#         for destino in cur.opcoes.values():
-#             if destino and destino.id not in visitados:
-#                 stack.append(destino)
-#     return visitados
-
-
 # função principal do jogo
 def jogar():
     limpar()
     print("Bem-vindo à".center(70))
     print("ESCALADA: Chegue ao topo ou não".center(70, "█"))
     time.sleep(1)
-
-    # checagem inicial — garante que todos os nós criados podem ser alcançados
-    # atingiveis = validar_alcancabilidade(inicio, nodes)
-    # total_nodes = len(nodes)
-    # print(f"Nós definidos: {total_nodes}. Nós alcançáveis a partir do início: {len(atingiveis)}.")
-    # if len(atingiveis) < total_nodes:
-    #     print("Aviso: nem todos os nós são perfeitamente alcançáveis — ainda assim, a maior parte está acessível.")
-    # time.sleep(1.2)
 
     atual = inicio
 
