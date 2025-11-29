@@ -17,7 +17,7 @@ class No:
         return self.final is not None #verificação se é o nó final ou não
 
 # Nós que representam os finais do jogo, os nós finais precisam apenas dos parâmetros de ID e do final 
-final_topo = No('final_topo', final=""" 
+final_topo = No('Arriscar tudo', final=""" 
 VOCÊ CHEGOU AO TOPO DA MONTANHA!
 
 O vento sopra forte. O sol nasce.
@@ -26,7 +26,7 @@ Você ergue os braços em vitória!
 PARABÉNS, AVENTUREIRO!
 """)
 
-final_sem_saida = No('final_sem_saida', final="""
+final_sem_saida = No('Parede_de_Pedra', final="""
 CAMINHO SEM SAÍDA
 
 Você chega a uma parede de pedra lisa.
@@ -35,7 +35,7 @@ Sem equipamentos... só resta voltar.
 Derrota silenciosa...
 """)
 
-final_queda = No('final_queda', final="""
+final_queda = No('Pular', final="""
 VOCÊ CAIU!!!
 
 Seus pés escorregam na pedra molhada.
@@ -44,7 +44,7 @@ Você tenta se agarrar... mas é tarde.
 *Game Over*
 """)
 
-final_fog = No('final_fog', final="""
+final_fog = No('Tentar_atravessar', final="""
 PERDIDO NA NEBLINA
 
 A névoa engole seus passos.
@@ -53,7 +53,7 @@ Você vaga sem rumo até cair exausto.
 Fim trágico...
 """)
 
-final_sabedoria = No('final_sabedoria', final="""
+final_sabedoria = No('Falar_com_ancião', final="""
 SABEDORIA DO ANCIÃO
 
 Um velho guia lhe ensina um caminho secreto.
@@ -62,7 +62,7 @@ Com conhecimento, você atravessa a montanha.
 Vitória pacífica.
 """)
 
-final_caverna = No('final_caverna', final="""
+final_caverna = No('Entrar_na_caverna', final="""
 CAVERNA ESCURA
 
 Dentro da caverna você encontra um lago subterrâneo.
@@ -71,7 +71,7 @@ As paredes desabam silenciosamente.
 Você não consegue sair.
 """)
 
-final_sucesso_parcial = No('final_sucesso_parcial', final="""
+final_sucesso_parcial = No('Subir_plataforma', final="""
 MEIO TOPO
 
 Você alcança uma plataforma elevada.
@@ -80,7 +80,7 @@ Não é o topo, mas é um lugar seguro para acampar.
 Missão parcialmente cumprida.
 """)
 
-final_pedra_precaria = No('final_pedra_precaria', final="""
+final_pedra_precaria = No('Passar_pelas_pedras', final="""
 PONTA INSTÁVEL
 
 Uma pedra onde você pisa se solta.
@@ -89,7 +89,7 @@ Você consegue escapar por pouco, machucado.
 Volte mais preparado.
 """)
 
-final_resgate = No('final_resgate', final="""
+final_resgate = No('Fazer_sinais_de_socorro', final="""
 RESGATE INESPERADO
 
 Um helicóptero avista sua signal.
@@ -98,7 +98,7 @@ Você é resgatado para segurança.
 Sobrevivência com honra.
 """)
 
-final_tesouro = No('final_tesouro', final="""
+final_tesouro = No('Pegar_tesouro', final="""
 TESOURO ESCONDIDO
 
 Você encontra um pequeno tesouro deixado por antigos escaladores.
@@ -297,7 +297,7 @@ bifurcacao.opcoes = {
 
 penhasco.opcoes = {
     '1': final_topo,
-    '2': final_queda,
+    '2': final_sem_saida,
     '3': ponte_de_pedra
 }
 
