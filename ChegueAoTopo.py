@@ -120,153 +120,202 @@ inicio = N('Início', """
 A ESCALADA DA MONTANHA PERIGOSA
 Você está na base do Monte da Morte.
 Neva forte. O vento uiva.
-
-Antes de partir, verifique sua mochila — você pode levar APENAS UM item:
-1) MAPA detalhado da montanha
-2) BÚSSOLA confiável
-
-Escolha com sabedoria.
+Você tem três caminhos, escolha com sabedoria.
 """)
 
 floresta = N('Floresta', """
 Você entra numa floresta densa e escura.
-Ouve um riacho ao longe... e vê uma colina íngreme.
+Ouve um riacho ao longe... e vê uma colina íngreme um pouco distante.
+Ao olhar para os lados você também vê um caminho com uma placa indicando 50mts de um acampamento e do outro lado vê uma árvore no chão.
 """)
 
 rio = N('Rio', """
 Um rio gelado bloqueia seu caminho!
-Você vê pedras escorregadias no meio da corrente e uma ponte velha a alguma distância.
+Você vê pedras escorregadias no meio da corrente e uma ponte velha a alguma distância. Há uma árvore caida ao lado esquerdo do rio e uma bifurcação à direita do rio, mas não parece muito confiável...
 """)
 
 bifurcacao = N('Bifurcacao', """
 Você encontra uma bifurcação na trilha.
-Caminho à esquerda: íngreme, mas curto
+Caminho à esquerda: curto, mas leva a um penhasco
 Caminho à direita: suave, mas muito longo
+               
+Olhando com calma, você vê algumas pegadas que estão um pouco apagadas e vão por um caminho alternativo...
 """)
 
 penhasco = N('Penhasco', """
 Você chega a um penhasco estreito e perigoso.
 Abaixo, um abismo de 200 metros...
+             
+Você tem uma corda que pode lançar e tentar atingir o ponto mais alto arriscando tudo, mas há um caminho que aparentemente te leva para uma parede que você pode tentar escalar.
+             
+Ao verificar esses caminhos você também vê uma ponte de pedra que pode seguir.
 """)
 
 acampamento = N('Acampamento', """
 Você encontra um acampamento abandonado.
 Há uma fogueira apagada e um mapa rasgado.
+
+Você vê um ancião estranho, pode ignorar ele e explorar o acampamento antigo ou ir para um refúgio que você viu no caminho 
 """)
 
 ponte_arriscada = N('Ponte_arriscada', """
 A ponte range quando você pisa nela.
-Do outro lado, há uma trilha com marcas antigas.
+Do outro lado, há uma bifurcação com marcas antigas.
+
+Do seu lado há outras duas pontes, uma de pedra e outra suspensa...
 """)
 
 neblina = N('Neblina', """
 Uma neblina espessa desce rápido.
 Visibilidade quase zero.
+            
+Você viu um acampamento antes de chegar na neblina, pode ir até ele...
+Mas está escutando um barulho de água vindo de alguma direção, ou então você se arrisca para atravessar essa neblina...
 """)
 
 caverna_entrada = N('Entrada_da_Caverna', """
 Você encontra a entrada de uma caverna com inscrições.
 Parece perigoso, mas pode ser um atalho.
+
+Parece muito tentador entrar nessa caverna para tentar conseguir algo...
+                    
+Ao olhar as proximidades você vê algumas ruinas que também pode explorar, mas sente uma corrente de ar que parece te chamar...
 """)
 
 colina = N('Colina', """
 A colina é íngreme, coberta por pedras soltas.
 No topo, você avista uma enorme cruz de pedra.
+           
+Lá do alto você consegue ver três áreas: um acampamento, um mirante e um moinho           
 """)
 
 ponte_velha = N('Ponte_velha', """
 A ponte velha está parcialmente quebrada.
-Você pode pular uma parte ou consertar provisoriamente.
+Você pode pular uma parte ou tentar caminhos alternativos já que você consegue ver outras duas pontes um pouco mais distante.
+
 """)
 
 trilha_longe = N('Trilha_longe', """
 A trilha se estende por muitos quilômetros em ziguezague.
-Você encontra uma placa indicando: "Santuário — 12 km".
+Você encontra uma placa indicando: "Caverna do urso - 5km" e "Penhasco dedo de Deus - 15km".
+E ao lado um caminho entre árvores que não vai para nenhum desses indicados
 """)
 
 acampamento_antigo = N('Acampamento_antigo', """
 Você encontra um barracão em ruínas com símbolos antigos.
+Você pode  tentar decifrar esses símbolos que parece dar em um tesouro escondido alí, seguir uma trilha para tentar chegar ao topo e conseguir ajuda ou ir até o moinho do acampamento
 """)
 
 moinho = N('Moinho', """
 Um velho moinho de vento aparece no topo de uma colina baixa.
-Há uma velha corda pendurada.
+Há uma velha corda pendurada e nada mais.
+Seguindo em frente você tem uma trilha, você pode arriscar ir por ela ou por uma ponte que está quase caindo...
+Se achar melhor pode voltar ao centro do acampamento
 """)
 
 bosque_claro = N('Bosque_claro', """
 O bosque se abre em uma clareira com flores estranhas.
 O cheiro é reconfortante.
+
+Há uma meia parede que você pode tentar escalar e vê no que dá...
+Você também vê um moinho há uma distância e está ouvindo um barulho de metais vindo de muito perto...
 """)
 
 ruinas = N('Ruinas', """
 Você encontra ruínas de um antigo abrigo de escaladores.
-Há ferramentas enferrujadas.
+Há ferramentas enferrujadas e um mapa rasgado.
+           
+As ferramentas não estão servindo, mas o mapa marca um acampamento antigo e uma ponte.
+Você vê também que os escaladores escreveram algo em algumas pedras, você pode seguir o que eles escreveram e investigar
 """)
 
 rastro_animais = N('Rastro_de_animais', """
 Há rastros de animais na lama.
 Eles seguem para uma formação rochosa.
+
+A formação rochosa é ao lado de um bosque, há também uma ladeira e uma especie de ruinas de um acampamento
 """)
 
 ladeira = N('Ladeira', """
 Uma ladeira íngreme bloqueia seu caminho.
 As pedras cedem sob seus pés.
+
+Você pode continuar ou seguir o rastro que vê próximo
 """)
 
 barranco = N('Barranco', """
 Você alcança um barranco com vista para um vale.
-Há um heliponto abandonado.
+Há um heliponto abandonado e uma ladeira.
 """)
 
 ponte_suspensa = N('Ponte_suspensa', """
 Uma ponte suspensa liga duas falésias.
-O vento a balança.
+O vento a balança, mas você consegue atravessar...
+
+De longe você vê um barranco, mas até ele tem que sair passando por caminhos dificeis, há mais próximo uma ponte mais arriscada que há anterior.
+
+Ou você segue enfrentando o vento forte que está nessa altitude...
 """)
 
 mirante = N('Mirante', """
 Um mirante natural oferece vista para várias trilhas.
 Você pode estudar o mapa mentalmente.
+            
+Logo abaixo há uma neblina forte e logo ao seu lado tem marcas de pegadas que estão sumindo
 """)
 
 passo_raso = N('Passo_raso', """
 Um passo raso exige equilíbrio.
+Você conseguiu passar com calma, mas chega em uma falésia com uma ponte suspensa não muito confiável...
 """)
 
 refugio = N('Refugio', """
 Um pequeno refúgio de pedra oferece abrigo.
 Há mantimentos secos.
+Você pode seguir para o acampamento que está próximo ou ir até o mirante que você está vendo da posição atual
 """)
 
 encosta_rochosa = N('Encosta_rochosa', """
 A encosta é rochosa e exige técnica.
+Pode seguir em passos rasos ou seguir um rastro de animais que você vê próximo a encosta...
 """)
 
 ponte_de_pedra = N('Ponte_de_pedra', """
 Uma ponte natural de pedra forma uma passagem estreita.
+Você encontra um refúgio e uma encosta rochosa...
 """)
 
 atalho_secreto = N('Atalho_secreto', """
 Você descobre um atalho marcado por fitas coloridas.
 Parece não ser usado há anos.
+
+Há umas marcas que parecem indicar um tesouro ou uma armadilha...
+Há também uma trilha que você pode sair explorando
 """)
 pedra_escrita = N('Pedra_escrita', 
-                  'Você encontra uma pedra com inscrições.')
+                  """Você encontra uma pedra com inscrições.
+                  Nela consta direções para um acampamento e para uma ponte
+                  """)
 riacho = N('Riacho', 
-           'Um pequeno riacho corta a trilha. Água limpa, parece potável.')
+            """Um pequeno riacho corta a trilha. Água limpa, parece potável. 
+            Ao seguir o rio você pode chegar em um refugio...
+            Se preferir arriscar, pode ir seguindo um rastro que vio antes de chegar ao riacho""")
 vento_forte = N('Vento_forte', 
-                'Ventos fortes sopram pedras soltas.')
+                'Ventos fortes sopram pedras soltas. você fica com medo e precisa voltar. Você pode ir em passos rasos ou para ir para a ponte...')
 arvore_caida = N('Arvore_caida', 
-                 'Uma árvore caída forma uma ponte sobre um córrego.')
+                 'Uma árvore caída forma uma ponte sobre um córrego. você atravessa, mas mais a frente há um riacho que dá para atravessar andando ou pode ir até um caminho meio nebuloso')
 pegada = N('Pegada', 
-           'Pegadas frescas seguem por uma trilha estreita.')
+           """Pegadas frescas seguem por uma trilha estreita. 
+           Ao chegar em um ponto você vê uma pedra com escritas e um mirante.
+           Você percebe que não pode ir em ambos devido a noite que está chegado, então deve escolher...""")
 trilha_antiga = N('Trilha_antiga', 
-                  'Uma trilha antiga com corrimões de madeira.')
+                  'Uma trilha antiga com corrimões de madeira fez você chegar em um ponto que atravessaa uma ponte ou passa por uma encosta de rochas')
 tempestade = N('tempestade', 
-               'O céu escurece rapidamente. Tempestade se aproxima.')
+               'O céu escurece rapidamente. Tempestade se aproxima. Você pode correr até o refúgio que passou anteriormente ou corre em frente por uma ponte de madeira que parece')
 som_metalico = N('Som_metalico', 
-                 'Um som metálico ecoa por entre as rochas.')
+                 'Um som metálico ecoa por entre as rochas. Ao seguir o caminho do som, você vê a uma certa distância algumas fogueiras apagadas que parece ser ruinas de algo, mas ao seu lado há um bosque bastante chamativo')
 corrente_ar = N('Corrente_de_ar', 
-                'Uma corrente de ar frio sopra por uma fenda.')
+                'Uma corrente de ar frio sopra por uma fenda. Você sente ela lhe convidando e chega a uma entrada de caverna ao lado de uma escora rochosa com um caminho estreito que você pode passar calmamente')
 
 #Conexões - opções de caminhos a partir do nó, tudo isso é adicionado ao dicionario com os nó 
 # inicio como ponto inicial
@@ -440,15 +489,22 @@ pegada.opcoes = {
     '1': pedra_escrita, 
     '2': mirante
 }
-trilha_antiga.opcoes = {'1': ponte_suspensa, '2': encosta_rochosa}
-tempestade.opcoes = {'1': refugio, '2': final_queda}
-som_metalico.opcoes = {'1': ruinas, '2': bosque_claro}
-corrente_ar.opcoes = {'1': caverna_entrada, '2': passo_raso}
-
-# Algumas ligações adicionais para garantir que TODOS os nós sejam alcançáveis
-# (ligações bidirecionais parciais para navegação mais livre)
-# ruinas.opcoes.setdefault('4', puente := None)
-# (o operator acima é só para manter consistência; não é usado)
+trilha_antiga.opcoes = {
+    '1': ponte_suspensa, 
+    '2': encosta_rochosa
+}
+tempestade.opcoes = {
+    '1': refugio, 
+    '2': final_queda
+}
+som_metalico.opcoes = {
+    '1': ruinas, 
+    '2': bosque_claro
+}
+corrente_ar.opcoes = {
+    '1': caverna_entrada, 
+    '2': passo_raso
+}
 
 # FUNÇÕES AUXILIARES
 
@@ -468,7 +524,7 @@ def listar_opcoes(caminho):
 def jogar():
     limpar()
     print("Bem-vindo à".center(70))
-    print("ESCALADA: Chegue ao topo ou não".center(70, "█"))
+    print("ESCALADA: Chegue ao topo ou não".center(70))
     time.sleep(1)
 
     atual = inicio
@@ -518,13 +574,11 @@ def jogar():
             time.sleep(1)
             continue
 
-
-if __name__ == '__main__':
-    while True:
-        jogar()
-        again = input("\nDeseja jogar novamente? (s/n): ").strip().lower()
-        if again != 's':
-            limpar()
-            print("Obrigado por jogar! Até a próxima escalada.")
-            time.sleep(1.5)
-            break
+while True:
+    jogar()
+    again = input("\nDeseja jogar novamente? (s/n): ").strip().lower()
+    if again != 's':
+        limpar()
+        print("Obrigado por jogar! Até a próxima escalada.")
+        time.sleep(1.5)
+        break
