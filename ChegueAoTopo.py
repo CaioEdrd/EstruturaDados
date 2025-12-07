@@ -118,7 +118,7 @@ def N(id, texto=''):
 #A partir daqui são gerados os caminhos da história, representa o mapa do jogo
 inicio = N('Início', """
 A ESCALADA DA MONTANHA PERIGOSA
-Você está na base do Monte da Morte.
+Você está na base do Monte da Morte e seu objetivo é alcançar o topo.
 Neva forte. O vento uiva.
 Você tem três caminhos, escolha com sabedoria.
 """)
@@ -525,7 +525,7 @@ def jogar():
     limpar()
     print("Bem-vindo à".center(70))
     print("ESCALADA: Chegue ao topo ou não".center(70))
-    time.sleep(1)
+    time.sleep(2.3)
 
     atual = inicio
 
@@ -580,5 +580,5 @@ while True:
     if again != 's':
         limpar()
         print("Obrigado por jogar! Até a próxima escalada.")
-        time.sleep(1.5)
+        time.sleep(2.3)
         break
