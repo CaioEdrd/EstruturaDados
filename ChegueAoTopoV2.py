@@ -127,7 +127,6 @@ Você vê um ancião estranho, pode ignorar ele e explorar o acampamento antigo 
 """)
 ponte_arriscada = N('Ponte_arriscada', """
 A ponte range quando você pisa nela.
-Do outro lado, há uma bifurcação com marcas antigas.
 Do seu lado há outras duas pontes, uma de pedra e outra suspensa...
 """)
 neblina = N('Neblina', """
@@ -156,7 +155,7 @@ Você pode pular uma parte ou tentar caminhos alternativos já que você consegu
 """)
 trilha_longe = N('Trilha_longe', """
 A trilha se estende por muitos quilômetros em ziguezague.
-Você encontra uma placa indicando: "Caverna do urso - 5km" e "Penhasco dedo de Deus - 15km".
+Você encontra uma placa indicando: "Caverna do urso - 5km".
 E ao lado um caminho entre árvores que não vai para nenhum desses indicados
 """)
 acampamento_antigo = N('Acampamento_antigo', """
@@ -274,17 +273,14 @@ penhasco.opcoes = {'1': final_topo,
                    '2': final_sem_saida, 
                    '3': ponte_de_pedra}
 acampamento.opcoes = {'1': acampamento_antigo, 
-                      '2': refugio, 
-                      '3': final_sabedoria}
-ponte_arriscada.opcoes = {'1': ponte_suspensa, 
-                          '2': ponte_de_pedra, 
-                          '3': bifurcacao}
+                      '2': final_sabedoria}
+ponte_arriscada.opcoes = {'1': ponte_suspensa, }
 neblina.opcoes = {'1': acampamento, 
                   '2': riacho, 
                   '3': final_fog}
-caverna_entrada.opcoes = {'1': final_caverna, 
-                          '2': ruinas,
-                           '3': corrente_ar}
+caverna_entrada.opcoes = {'1': ruinas,
+                           '2': corrente_ar,
+                           '3':final_caverna}
 colina.opcoes = {'1': acampamento, 
                  '2': mirante, 
                  '3': moinho}
@@ -292,61 +288,45 @@ ponte_velha.opcoes = {'1': ponte_arriscada,
                       '2': ponte_suspensa, 
                       '3': final_queda}
 trilha_longe.opcoes = {'1': caverna_entrada, 
-                       '2': atalho_secreto, 
-                       '3': penhasco}
+                       '2': atalho_secreto, }
 acampamento_antigo.opcoes = {'1': final_tesouro, 
                              '2': trilha_longe, 
                              '3': moinho}
-moinho.opcoes = {'1': ponte_velha, 
-                 '2': acampamento_antigo, 
-                 '3': trilha_antiga}
+moinho.opcoes = {'1':  trilha_antiga}
 bosque_claro.opcoes = {'1': final_sucesso_parcial, 
                        '2': moinho, 
                        '3': som_metalico}
 ruinas.opcoes = {'1': ponte_velha, 
-                 '2': acampamento_antigo, 
-                 '3': pedra_escrita}
-rastro_animais.opcoes = {'1': ruinas, 
-                         '2': bosque_claro, 
-                         '3': ladeira}
+                 '2': pedra_escrita}
+rastro_animais.opcoes = {'1': bosque_claro, 
+                         }
 ladeira.opcoes = {'1': rastro_animais, 
                   '2': final_pedra_precaria}
 barranco.opcoes = {'1': final_resgate, 
                    '2': ladeira}
 ponte_suspensa.opcoes = {'1': barranco, 
-                         '2': ponte_arriscada, 
-                         '3': vento_forte}
+                         '2':vento_forte}
 mirante.opcoes = {'1': trilha_longe, 
                   '2': neblina, 
                   '3': pegada}
-passo_raso.opcoes = {'1': ponte_suspensa, 
-                     '2': final_queda}
+passo_raso.opcoes = {'1': final_queda}
 refugio.opcoes = {'1': mirante, 
                   '2': acampamento}
-encosta_rochosa.opcoes = {'1': passo_raso, 
-                          '2': rastro_animais}
+encosta_rochosa.opcoes = {'1': passo_raso, }
 ponte_de_pedra.opcoes = {'1': refugio, 
                          '2': encosta_rochosa}
-atalho_secreto.opcoes = {'1': final_tesouro, 
-                         '2': trilha_longe}
-pedra_escrita.opcoes = {'1': acampamento_antigo, 
-                        '2': ponte_de_pedra}
-riacho.opcoes = {'1': refugio, 
-                 '2': rastro_animais}
-vento_forte.opcoes = {'1': passo_raso, 
-                      '2': ponte_suspensa}
+atalho_secreto.opcoes = {'1': final_tesouro, }
+pedra_escrita.opcoes = {'1': final_sabedoria, }
+riacho.opcoes = {'1': rastro_animais}
+vento_forte.opcoes = {'1': passo_raso, }
 arvore_caida.opcoes = {'1': riacho, 
                        '2': neblina}
-pegada.opcoes = {'1': pedra_escrita, 
-                 '2': mirante}
-trilha_antiga.opcoes = {'1': ponte_suspensa, 
-                        '2': encosta_rochosa}
+pegada.opcoes = {'1': pedra_escrita, }
+trilha_antiga.opcoes = {'1': encosta_rochosa}
 tempestade.opcoes = {'1': refugio, 
                      '2': final_queda}
-som_metalico.opcoes = {'1': ruinas, 
-                       '2': bosque_claro}
-corrente_ar.opcoes = {'1': caverna_entrada, 
-                      '2': passo_raso}
+som_metalico.opcoes = {'1': final_queda}
+corrente_ar.opcoes = {'1': passo_raso}
 inicio_finais = [
     inicio, final_topo, final_sem_saida, final_queda, final_fog,
     final_sabedoria, final_caverna, final_sucesso_parcial,
@@ -447,4 +427,4 @@ while True:
         ver_mapa = input("Ver mapa da árvore de decisão? (s/n): ").strip().lower()
         if ver_mapa in ['s', 'sim']:
             gerar_mapa()
-            break
+    break
