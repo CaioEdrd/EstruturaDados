@@ -89,7 +89,7 @@ def N(id, texto=''):
     nodes[id] = caminho
     return caminho
 
-# Criação dos nós intermediários (sem mudanças)
+# Criação dos nós intermediários
 inicio = N('Início', """
 A ESCALADA DA MONTANHA PERIGOSA
 Você está na base do Monte da Morte.
@@ -256,42 +256,97 @@ som_metalico = N('Som_metalico',
 corrente_ar = N('Corrente_de_ar',
                 'Uma corrente de ar frio sopra por uma fenda. Você sente ela lhe convidando e chega a uma entrada de caverna ao lado de uma escora rochosa com um caminho estreito que você pode passar calmamente')
 
-# Conexões (sem mudanças no jogo original)
-inicio.opcoes = {'1': floresta, '2': rio, '3': colina}
-floresta.opcoes = {'1': rio, '2': colina, '3': acampamento, '4': arvore_caida}
-rio.opcoes = {'1': ponte_velha, '2': bifurcacao, '3': arvore_caida}
-bifurcacao.opcoes = {'1': penhasco, '2': trilha_longe, '3': pegada}
-penhasco.opcoes = {'1': final_topo, '2': final_sem_saida, '3': ponte_de_pedra}
-acampamento.opcoes = {'1': acampamento_antigo, '2': refugio, '3': final_sabedoria}
-ponte_arriscada.opcoes = {'1': ponte_suspensa, '2': ponte_de_pedra, '3': bifurcacao}
-neblina.opcoes = {'1': acampamento, '2': riacho, '3': final_fog}
-caverna_entrada.opcoes = {'1': final_caverna, '2': ruinas, '3': corrente_ar}
-colina.opcoes = {'1': acampamento, '2': mirante, '3': moinho}
-ponte_velha.opcoes = {'1': ponte_arriscada, '2': ponte_suspensa, '3': final_queda}
-trilha_longe.opcoes = {'1': caverna_entrada, '2': atalho_secreto, '3': penhasco}
-acampamento_antigo.opcoes = {'1': final_tesouro, '2': trilha_longe, '3': moinho}
-moinho.opcoes = {'1': ponte_velha, '2': acampamento_antigo, '3': trilha_antiga}
-bosque_claro.opcoes = {'1': final_sucesso_parcial, '2': moinho, '3': som_metalico}
-ruinas.opcoes = {'1': ponte_velha, '2': acampamento_antigo, '3': pedra_escrita}
-rastro_animais.opcoes = {'1': ruinas, '2': bosque_claro, '3': ladeira}
-ladeira.opcoes = {'1': rastro_animais, '2': final_pedra_precaria}
-barranco.opcoes = {'1': final_resgate, '2': ladeira}
-ponte_suspensa.opcoes = {'1': barranco, '2': ponte_arriscada, '3': vento_forte}
-mirante.opcoes = {'1': trilha_longe, '2': neblina, '3': pegada}
-passo_raso.opcoes = {'1': ponte_suspensa, '2': final_queda}
-refugio.opcoes = {'1': mirante, '2': acampamento}
-encosta_rochosa.opcoes = {'1': passo_raso, '2': rastro_animais}
-ponte_de_pedra.opcoes = {'1': refugio, '2': encosta_rochosa}
-atalho_secreto.opcoes = {'1': final_tesouro, '2': trilha_longe}
-pedra_escrita.opcoes = {'1': acampamento_antigo, '2': ponte_de_pedra}
-riacho.opcoes = {'1': refugio, '2': rastro_animais}
-vento_forte.opcoes = {'1': passo_raso, '2': ponte_suspensa}
-arvore_caida.opcoes = {'1': riacho, '2': neblina}
-pegada.opcoes = {'1': pedra_escrita, '2': mirante}
-trilha_antiga.opcoes = {'1': ponte_suspensa, '2': encosta_rochosa}
-tempestade.opcoes = {'1': refugio, '2': final_queda}
-som_metalico.opcoes = {'1': ruinas, '2': bosque_claro}
-corrente_ar.opcoes = {'1': caverna_entrada, '2': passo_raso}
+# Conexões
+inicio.opcoes = {'1': floresta, 
+                 '2': rio, 
+                 '3': colina}
+floresta.opcoes = {'1': rio, 
+                   '2': colina, 
+                   '3': acampamento, 
+                   '4': arvore_caida}
+rio.opcoes = {'1': ponte_velha, 
+              '2': bifurcacao, 
+              '3': arvore_caida}
+bifurcacao.opcoes = {'1': penhasco, 
+                     '2': trilha_longe, 
+                     '3': pegada}
+penhasco.opcoes = {'1': final_topo, 
+                   '2': final_sem_saida, 
+                   '3': ponte_de_pedra}
+acampamento.opcoes = {'1': acampamento_antigo, 
+                      '2': refugio, 
+                      '3': final_sabedoria}
+ponte_arriscada.opcoes = {'1': ponte_suspensa, 
+                          '2': ponte_de_pedra, 
+                          '3': bifurcacao}
+neblina.opcoes = {'1': acampamento, 
+                  '2': riacho, 
+                  '3': final_fog}
+caverna_entrada.opcoes = {'1': final_caverna, 
+                          '2': ruinas,
+                           '3': corrente_ar}
+colina.opcoes = {'1': acampamento, 
+                 '2': mirante, 
+                 '3': moinho}
+ponte_velha.opcoes = {'1': ponte_arriscada, 
+                      '2': ponte_suspensa, 
+                      '3': final_queda}
+trilha_longe.opcoes = {'1': caverna_entrada, 
+                       '2': atalho_secreto, 
+                       '3': penhasco}
+acampamento_antigo.opcoes = {'1': final_tesouro, 
+                             '2': trilha_longe, 
+                             '3': moinho}
+moinho.opcoes = {'1': ponte_velha, 
+                 '2': acampamento_antigo, 
+                 '3': trilha_antiga}
+bosque_claro.opcoes = {'1': final_sucesso_parcial, 
+                       '2': moinho, 
+                       '3': som_metalico}
+ruinas.opcoes = {'1': ponte_velha, 
+                 '2': acampamento_antigo, 
+                 '3': pedra_escrita}
+rastro_animais.opcoes = {'1': ruinas, 
+                         '2': bosque_claro, 
+                         '3': ladeira}
+ladeira.opcoes = {'1': rastro_animais, 
+                  '2': final_pedra_precaria}
+barranco.opcoes = {'1': final_resgate, 
+                   '2': ladeira}
+ponte_suspensa.opcoes = {'1': barranco, 
+                         '2': ponte_arriscada, 
+                         '3': vento_forte}
+mirante.opcoes = {'1': trilha_longe, 
+                  '2': neblina, 
+                  '3': pegada}
+passo_raso.opcoes = {'1': ponte_suspensa, 
+                     '2': final_queda}
+refugio.opcoes = {'1': mirante, 
+                  '2': acampamento}
+encosta_rochosa.opcoes = {'1': passo_raso, 
+                          '2': rastro_animais}
+ponte_de_pedra.opcoes = {'1': refugio, 
+                         '2': encosta_rochosa}
+atalho_secreto.opcoes = {'1': final_tesouro, 
+                         '2': trilha_longe}
+pedra_escrita.opcoes = {'1': acampamento_antigo, 
+                        '2': ponte_de_pedra}
+riacho.opcoes = {'1': refugio, 
+                 '2': rastro_animais}
+vento_forte.opcoes = {'1': passo_raso, 
+                      '2': ponte_suspensa}
+arvore_caida.opcoes = {'1': riacho, 
+                       '2': neblina}
+pegada.opcoes = {'1': pedra_escrita, 
+                 '2': mirante}
+trilha_antiga.opcoes = {'1': ponte_suspensa, 
+                        '2': encosta_rochosa}
+tempestade.opcoes = {'1': refugio, 
+                     '2': final_queda}
+som_metalico.opcoes = {'1': ruinas, 
+                       '2': bosque_claro}
+corrente_ar.opcoes = {'1': caverna_entrada, 
+                      '2': passo_raso}
 inicio_finais = [
     inicio, final_topo, final_sem_saida, final_queda, final_fog,
     final_sabedoria, final_caverna, final_sucesso_parcial,
@@ -300,7 +355,8 @@ inicio_finais = [
 
 for f in inicio_finais:
     nodes[f.id] = f
-# Funções auxiliares (sem mudanças)
+
+# Funções auxiliares 
 def listar_opcoes(caminho):
     items = []
     for i, (label, destino) in enumerate(caminho.opcoes.items(), start=1):
@@ -309,7 +365,7 @@ def listar_opcoes(caminho):
         items.append((str(i), descricao_short, destino.id, label))
     return items
 
-# Função jogar (sem mudanças)
+# Função jogar 
 def jogar():
     limpar()
     print("Bem-vindo à".center(70))
@@ -392,9 +448,3 @@ while True:
         if ver_mapa in ['s', 'sim']:
             gerar_mapa()
             break
-
-
-# Notas:
-# - Adicionei graphviz e IPython para visualização (instale via !pip install graphviz ipython no Colab).
-# - O mapa é gerado como no código base: nós azuis intermediários, verdes/vermelhos finais, início dourado.
-# - Todas folhas são finais; sem ciclos (assumindo estrutura original válida).
