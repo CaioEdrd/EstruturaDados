@@ -2,8 +2,6 @@ import os
 import time
 import graphviz
 from IPython.display import Image, display
-from typing import Dict
-
 # Limpa a tela
 def limpar():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -34,7 +32,7 @@ Derrota silenciosa...
 """)
 final_queda = No('Pular', final="""
 VOCÊ CAIU!!!
-Seus pés escorregam na pedra molhada.
+Seus pés escorregam na quando salta.
 Você tenta se agarrar... mas é tarde.
 *Game Over*
 """)
@@ -57,7 +55,7 @@ As paredes desabam silenciosamente.
 Você não consegue sair.
 """)
 final_sucesso_parcial = No('Subir_plataforma', final="""
-MEIO TOPO
+MEIO TOPO - parcialmente vitorioso
 Você alcança uma plataforma elevada.
 Não é o topo, mas é um lugar seguro para acampar.
 Missão parcialmente cumprida.
@@ -69,13 +67,13 @@ Você consegue escapar por pouco, machucado.
 Volte mais preparado.
 """)
 final_resgate = No('Fazer_sinais_de_socorro', final="""
-RESGATE INESPERADO
+RESGATE INESPERADO - Vitória
 Um helicóptero avista sua signal.
 Você é resgatado para segurança.
 Sobrevivência com honra.
 """)
 final_tesouro = No('Pegar_tesouro', final="""
-TESOURO ESCONDIDO
+TESOURO ESCONDIDO - parcialmente vitorioso
 Você encontra um pequeno tesouro deixado por antigos escaladores.
 Não leva ao topo, mas muda seu destino.
 """)
@@ -103,7 +101,7 @@ Ao olhar para os lados você também vê um caminho com uma placa indicando 50mt
 """)
 rio = N('Rio', """
 Um rio gelado bloqueia seu caminho!
-Você vê pedras escorregadias no meio da corrente e uma ponte velha a alguma distância. Há uma árvore caida ao lado esquerdo do rio e uma bifurcação à direita do rio, mas não parece muito confiável...
+Você vê uma ponte velha a alguma distância. Há uma árvore caida ao lado esquerdo do rio e uma bifurcação à direita do rio, mas não parece muito confiável...
 """)
 bifurcacao = N('Bifurcacao', """
 Você encontra uma bifurcação na trilha.
@@ -123,11 +121,11 @@ Ao verificar esses caminhos você também vê uma ponte de pedra que pode seguir
 acampamento = N('Acampamento', """
 Você encontra um acampamento abandonado.
 Há uma fogueira apagada e um mapa rasgado.
-Você vê um ancião estranho, pode ignorar ele e explorar o acampamento antigo ou ir para um refúgio que você viu no caminho
+Você vê um ancião estranho, pode ignorar ele e explorar o acampamento antigo
 """)
 ponte_arriscada = N('Ponte_arriscada', """
 A ponte range quando você pisa nela.
-Do seu lado há outras duas pontes, uma de pedra e outra suspensa...
+Você pode voltar e ir para a outra ponte ou arriscar pular sobre essa ponte que já está...
 """)
 neblina = N('Neblina', """
 Uma neblina espessa desce rápido.
@@ -156,7 +154,7 @@ Você pode pular uma parte ou tentar caminhos alternativos já que você consegu
 trilha_longe = N('Trilha_longe', """
 A trilha se estende por muitos quilômetros em ziguezague.
 Você encontra uma placa indicando: "Caverna do urso - 5km".
-E ao lado um caminho entre árvores que não vai para nenhum desses indicados
+E ao lado um caminho entre árvores que parece tentador
 """)
 acampamento_antigo = N('Acampamento_antigo', """
 Você encontra um barracão em ruínas com símbolos antigos.
@@ -165,8 +163,7 @@ Você pode  tentar decifrar esses símbolos que parece dar em um tesouro escondi
 moinho = N('Moinho', """
 Um velho moinho de vento aparece no topo de uma colina baixa.
 Há uma velha corda pendurada e nada mais.
-Seguindo em frente você tem uma trilha, você pode arriscar ir por ela ou por uma ponte que está quase caindo...
-Se achar melhor pode voltar ao centro do acampamento
+Seguindo em frente você tem uma trilha, você pode arriscar ir por ela ou tentar subir na corda para ver o que acha.
 """)
 bosque_claro = N('Bosque_claro', """
 O bosque se abre em uma clareira com flores estranhas.
@@ -178,14 +175,13 @@ ruinas = N('Ruinas', """
 Você encontra ruínas de um antigo abrigo de escaladores.
 Há ferramentas enferrujadas e um mapa rasgado.
 
-As ferramentas não estão servindo, mas o mapa marca um acampamento antigo e uma ponte.
+As ferramentas não estão servindo, mas o mapa marca uma ponte, pode seguir até ela.
 Você vê também que os escaladores escreveram algo em algumas pedras, você pode seguir o que eles escreveram e investigar
 """)
 rastro_animais = N('Rastro_de_animais', """
 Há rastros de animais na lama.
-Eles seguem para uma formação rochosa.
-A formação rochosa é ao lado de um bosque, há também uma ladeira e uma especie de ruinas de um acampamento
-""")
+Eles seguem para uma trilha que mostra passagem de pessoas, mas está se apagando.
+Ao lado do rastro há um bosque que você pode verificar""")
 ladeira = N('Ladeira', """
 Uma ladeira íngreme bloqueia seu caminho.
 As pedras cedem sob seus pés.
@@ -209,7 +205,7 @@ Logo abaixo há uma neblina forte e logo ao seu lado tem marcas de pegadas que e
 """)
 passo_raso = N('Passo_raso', """
 Um passo raso exige equilíbrio.
-Você conseguiu passar com calma, mas chega em uma falésia com uma ponte suspensa não muito confiável...
+Você conseguiu passar com calma, mas chega em uma falésia você terá que arriscar tudo e pular para tentar chegar ao outro lado...
 """)
 refugio = N('Refugio', """
 Um pequeno refúgio de pedra oferece abrigo.
@@ -218,7 +214,7 @@ Você pode seguir para o acampamento que está próximo ou ir até o mirante que
 """)
 encosta_rochosa = N('Encosta_rochosa', """
 A encosta é rochosa e exige técnica.
-Pode seguir em passos rasos ou seguir um rastro de animais que você vê próximo a encosta...
+Pode seguir em passos rasos tomando cuidado ou tentar subir...
 """)
 ponte_de_pedra = N('Ponte_de_pedra', """
 Uma ponte natural de pedra forma uma passagem estreita.
@@ -228,7 +224,7 @@ atalho_secreto = N('Atalho_secreto', """
 Você descobre um atalho marcado por fitas coloridas.
 Parece não ser usado há anos.
 Há umas marcas que parecem indicar um tesouro ou uma armadilha...
-Há também uma trilha que você pode sair explorando
+Há também uma trilha que leva até uma caverna
 """)
 pedra_escrita = N('Pedra_escrita',
                   """Você encontra uma pedra com inscrições.
@@ -236,18 +232,18 @@ pedra_escrita = N('Pedra_escrita',
                   """)
 riacho = N('Riacho',
             """Um pequeno riacho corta a trilha. Água limpa, parece potável.
-            Ao seguir o rio você pode chegar em um refugio...
-            Se preferir arriscar, pode ir seguindo um rastro que vio antes de chegar ao riacho""")
+            Ao seguir o rio você pode chegar em um acampamento...
+            Se preferir arriscar, pode ir seguindo um rastro que viu antes de chegar ao riacho""")
 vento_forte = N('Vento_forte',
-                'Ventos fortes sopram pedras soltas. você fica com medo e precisa voltar. Você pode ir em passos rasos ou para ir para a ponte...')
+                'Ventos fortes sopram pedras soltas. você fica com medo. Você pode ir em passos rasos ou para ir rapidamente até uma ladeira que avistou...')
 arvore_caida = N('Arvore_caida',
                   'Uma árvore caída forma uma ponte sobre um córrego. você atravessa, mas mais a frente há um riacho que dá para atravessar andando ou pode ir até um caminho meio nebuloso')
 pegada = N('Pegada',
            """Pegadas frescas seguem por uma trilha estreita.
-           Ao chegar em um ponto você vê uma pedra com escritas e um mirante.
+           Ao chegar em um ponto você vê uma pedra com escritas e uma entrada de caverna.
            Você percebe que não pode ir em ambos devido a noite que está chegado, então deve escolher...""")
 trilha_antiga = N('Trilha_antiga',
-                  'Uma trilha antiga com corrimões de madeira fez você chegar em um ponto que atravessaa uma ponte ou passa por uma encosta de rochas')
+                  'Uma trilha antiga com corrimões de madeira fez você chegar em um ponto que deve passar por uma encosta de rochas, não há escolhas')
 tempestade = N('tempestade',
                'O céu escurece rapidamente. Tempestade se aproxima. Você pode correr até o refúgio que passou anteriormente ou corre em frente por uma ponte de madeira que parece')
 som_metalico = N('Som_metalico',
@@ -274,7 +270,8 @@ penhasco.opcoes = {'1': final_topo,
                    '3': ponte_de_pedra}
 acampamento.opcoes = {'1': acampamento_antigo, 
                       '2': final_sabedoria}
-ponte_arriscada.opcoes = {'1': ponte_suspensa, }
+ponte_arriscada.opcoes = {'1': ponte_suspensa, 
+                          '2': final_queda}
 neblina.opcoes = {'1': acampamento, 
                   '2': riacho, 
                   '3': final_fog}
@@ -292,13 +289,15 @@ trilha_longe.opcoes = {'1': caverna_entrada,
 acampamento_antigo.opcoes = {'1': final_tesouro, 
                              '2': trilha_longe, 
                              '3': moinho}
-moinho.opcoes = {'1':  trilha_antiga}
+moinho.opcoes = {'1':  trilha_antiga,
+                 '2': final_sucesso_parcial}
 bosque_claro.opcoes = {'1': final_sucesso_parcial, 
                        '2': moinho, 
                        '3': som_metalico}
 ruinas.opcoes = {'1': ponte_velha, 
                  '2': pedra_escrita}
-rastro_animais.opcoes = {'1': bosque_claro, 
+rastro_animais.opcoes = {'1': bosque_claro,
+                         '2':trilha_antiga 
                          }
 ladeira.opcoes = {'1': rastro_animais, 
                   '2': final_pedra_precaria}
@@ -312,21 +311,28 @@ mirante.opcoes = {'1': trilha_longe,
 passo_raso.opcoes = {'1': final_queda}
 refugio.opcoes = {'1': mirante, 
                   '2': acampamento}
-encosta_rochosa.opcoes = {'1': passo_raso, }
+encosta_rochosa.opcoes = {'1': passo_raso, 
+                          '2': final_sucesso_parcial}
 ponte_de_pedra.opcoes = {'1': refugio, 
                          '2': encosta_rochosa}
-atalho_secreto.opcoes = {'1': final_tesouro, }
-pedra_escrita.opcoes = {'1': final_sabedoria, }
-riacho.opcoes = {'1': rastro_animais}
-vento_forte.opcoes = {'1': passo_raso, }
+atalho_secreto.opcoes = {'1': final_tesouro, 
+                         '2': caverna_entrada}
+pedra_escrita.opcoes = {'1': final_sabedoria, 
+                        '2':ponte_suspensa}
+riacho.opcoes = {'1': rastro_animais,
+                 '2':acampamento_antigo}
+vento_forte.opcoes = {'1': passo_raso,
+                      '2':ladeira }
 arvore_caida.opcoes = {'1': riacho, 
                        '2': neblina}
-pegada.opcoes = {'1': pedra_escrita, }
+pegada.opcoes = {'1': pedra_escrita,
+                 '2': caverna_entrada }
 trilha_antiga.opcoes = {'1': encosta_rochosa}
 tempestade.opcoes = {'1': refugio, 
                      '2': final_queda}
 som_metalico.opcoes = {'1': final_queda}
-corrente_ar.opcoes = {'1': passo_raso}
+corrente_ar.opcoes = {'1': passo_raso,
+                      '2':ponte_velha}
 inicio_finais = [
     inicio, final_topo, final_sem_saida, final_queda, final_fog,
     final_sabedoria, final_caverna, final_sucesso_parcial,
@@ -390,17 +396,22 @@ def jogar():
 # Nova função para gerar mapa com graphviz
 def gerar_mapa():
     dot = graphviz.Digraph("Escalada da Montanha Perigosa", format="png")
-    dot.attr(rankdir="TB", size="20,30!", dpi="200")
+    dot.attr(rankdir="TB", size="25,30!", dpi="200")
     dot.attr("node", shape="box", style="filled,rounded", fontname="Helvetica", fontsize="10")
 
     # Adiciona todos os nós
     for no_id, no in nodes.items():
         label = f"{no.id}..."
         if no.eh_final():
-            cor = "limegreen" if "topo" in no_id.lower() or "vitória" in no.final.lower() else "firebrick"
-            dot.node(no_id, label, fillcolor=cor, fontcolor="white", style="filled,bold")
+            if "vitória" in no.final.lower():
+                dot.node(no_id, label, fillcolor="limegreen" , fontcolor="white", style="filled,bold")
+            elif "parcialmente vitorioso" in no.final.lower():
+                dot.node(no_id, label, fillcolor="yellow", style="filled,bold")
+            else:
+                dot.node(no_id, label, fillcolor="firebrick", fontcolor="white", style="filled,bold")
+                
         elif no_id == "Início":
-            dot.node(no_id, label, fillcolor="gold", style="filled,bold")
+            dot.node(no_id, label, fillcolor="lightgrey", style="filled,bold")
         else:
             dot.node(no_id, label, fillcolor="lightskyblue", style="filled")
 
@@ -412,7 +423,8 @@ def gerar_mapa():
             dot.edge(no_id, dest.id, label=rotulo, **estilo)
 
     # Renderiza e exibe
-    dot.render("escalada_mapa", cleanup=True)
+    dot.render("escalada_mapa", format="png", cleanup=True)
+    dot.render("escalada_mapa", format="pdf", cleanup=True)
     display(Image("escalada_mapa.png"))
     print(f"Mapa gerado! {len(nodes)} nós visualizados.")
 
@@ -427,4 +439,6 @@ while True:
         ver_mapa = input("Ver mapa da árvore de decisão? (s/n): ").strip().lower()
         if ver_mapa in ['s', 'sim']:
             gerar_mapa()
-    break
+            break
+
+        break
