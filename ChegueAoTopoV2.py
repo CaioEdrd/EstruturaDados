@@ -77,6 +77,16 @@ TESOURO ESCONDIDO - parcialmente vitorioso
 Você encontra um pequeno tesouro deixado por antigos escaladores.
 Não leva ao topo, mas muda seu destino.
 """)
+passagem_desmoronada = No("Passagem_arriscada", final = """
+A trilha pela lateral do penhasco termina abruptamente. Rochas soltas cedem sob o peso, e a passagem desaba, levando tudo consigo para o abismo abaixo.""" )
+colapso_final = No("Arriscar_verificar_sala",final="""
+Um estalo seco ecoa pelo ambiente. As engrenagens cedem, puxando vigas e correntes junto. Em segundos, a estrutura inteira começa a desmoronar, soterrando tudo sob metal e pedra.""")
+final_queda_eixo = No("Verificar_eixo",final="""
+Ao se aproximar do eixo central, o chão cede sem aviso. A queda é rápida e descontrolada, terminando em um impacto seco no fundo da estrutura. A escuridão toma conta, e o moinho finalmente silencia.""")
+correnteza_fatal = No("Mergulhar",final="""
+Ao mergulhar a mão na água fria, você consegue agarrar o objeto brilhante: um artefato antigo, coberto por símbolos desgastados. No entanto, o esforço desequilibra seu corpo, e a corrente começa a puxar com mais força.""")
+emboscada = No("Verificar_sinais",final="""
+Ao seguir os sinais, o silêncio se torna pesado demais. De repente, sombras surgem entre as árvores. Não há tempo para reagir. O caminho era uma armadilha desde o início.""")
 
 # Dicionário de nós
 nodes = {}
@@ -270,7 +280,14 @@ caminho_dos_campos = N("Caminho_dos_Campos",
                        "Um caminho aberto se estende para campos abandonados. A vegetação cresce de forma desordenada, e o silêncio é tão intenso que chega a incomodar. Não há sinais recentes de passagem, apenas o vento balançando a grama seca.")
 corrente_ar = N('Corrente_de_ar',
                 'Uma corrente de ar frio sopra por uma fenda. Você sente ela lhe convidando e chega a uma entrada de caverna ao lado de uma escora rochosa com um caminho estreito que você pode passar calmamente')
-
+plataforma_oposta = N("plataforma_oposta",
+                      "Após atravessar a ponte, você alcança uma plataforma de pedra cravada na lateral do penhasco. O local parece ter sido usado como ponto de observação ou apoio, com marcas de ferramentas antigas nas paredes. Daqui, é possível ver boa parte do vale, mas o vento forte dificulta permanecer por muito tempo.")
+tunel_subterraneo = N("tunel_subterraneo", 
+                      "Um túnel estreito se estende sob o moinho, cavado diretamente na rocha. O ar é frio e úmido, e gotas de água escorrem pelas paredes. O silêncio é quebrado apenas pelo eco distante de passos e pelo som abafado de algo se movendo nas profundezas.")
+pegar_objeto = N("pegar_objeto",
+                 "Ao mergulhar a mão na água fria, você consegue agarrar o objeto brilhante: um artefato antigo, coberto por símbolos desgastados. No entanto, o esforço desequilibra seu corpo, e a corrente começa a puxar com mais força.")
+trilha_escura = N("trilha_escura",
+                  "A trilha se estreita e a luz natural quase desaparece. Árvores densas bloqueiam o céu, e o chão está coberto por folhas úmidas que abafam os passos. É impossível saber se alguém observa das sombras.")
 # Conexões
 inicio.opcoes = {'1': floresta, 
                  '2': rio, 
@@ -282,6 +299,10 @@ floresta.opcoes = {'1': rio,
 rio.opcoes = {'1': ponte_velha, 
               '2': bifurcacao, 
               '3': arvore_caida}
+tunel_subterraneo.opcoes = {'1':ruinas,
+                     '2':corrente_ar}
+trilha_escura.opcoes = {'1':bosque_claro,
+                 '2':caminho_dos_campos}
 bifurcacao.opcoes = {'1': penhasco, 
                      '2': trilha_longe, 
                      '3': pegada}
@@ -296,7 +317,7 @@ ponte_arriscada.opcoes = {'1': ponte_suspensa,
                           '4': descer_pelo_abismo}
 atravessar_com_cuidado.opcoes = {'1': plataforma_oposta,
                                  '2': final_queda}
-descer_pelo_abismo.opcoes = { '1': caverna_entrada,
+descer_pelo_abismo.opcoes = { '1': plataforma_oposta,
                              '2': passagem_desmoronada}
 neblina.opcoes = {'1': acampamento, 
                   '2': riacho, 
@@ -337,7 +358,7 @@ barranco.opcoes = {'1': final_resgate,
                    '2': ladeira}
 ponte_suspensa.opcoes = {'1': barranco, 
                          '2':vento_forte}
-mirante.opcoes = {'1': trilha_longe, 
+mirante.opcoes = {'1': som_metalico, 
                   '2': neblina, 
                   '3': pegada}
 passo_raso.opcoes = {'1': final_queda,
@@ -371,7 +392,7 @@ vento_forte.opcoes = {'1': passo_raso,
 arvore_caida.opcoes = {'1': riacho, 
                        '2': neblina}
 pegada.opcoes = {'1': pedra_escrita,
-                 '2': caverna_entrada }
+                 '2': rastro_animais }
 trilha_antiga.opcoes = {'1': encosta_rochosa}
 tempestade.opcoes = {'1': refugio, 
                      '2': final_queda}
@@ -388,10 +409,17 @@ desfiladeiro_estreito.opcoes = {'1': passo_raso,
 
 corrente_ar.opcoes = {'1': passo_raso,
                       '2':ponte_velha}
+
+plataforma_oposta.opcoes = {
+    '1': mirante,
+    '2':encosta_rochosa,
+}
+
 inicio_finais = [
     inicio, final_topo, final_sem_saida, final_queda, final_fog,
     final_sabedoria, final_caverna, final_sucesso_parcial,
-    final_pedra_precaria, final_resgate, final_tesouro
+    final_pedra_precaria, final_resgate, final_tesouro, passagem_desmoronada,
+    colapso_final, final_queda_eixo,correnteza_fatal, emboscada
 ]
 
 for f in inicio_finais:
@@ -495,5 +523,4 @@ while True:
         if ver_mapa in ['s', 'sim']:
             gerar_mapa()
             break
-
         break
