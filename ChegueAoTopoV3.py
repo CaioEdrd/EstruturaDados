@@ -1,7 +1,7 @@
-import os
-import time
-import graphviz
-from IPython.display import Image, display
+import os #módulo para auxiliar a visualização do jogo, será utilizado apenas para limpar a tela e melhorar a visualização de cada etapa
+import time #módulo time para manter um fluxo controlado
+import graphviz #módulo para gerar a árvore ao final
+from IPython.display import Image, display #será utilizado na geração da imagem
 
 # Limpa a tela
 def limpar():
@@ -10,280 +10,190 @@ def limpar():
 # Classe dos Nós
 class No:
     def __init__(self, id, texto=None, opcoes=None, final=None):
-        self.id = id
-        self.texto = texto or ''
-        self.opcoes = opcoes or {}
-        self.final = final
+        self.id = id #será o identificador do nó para ser puxado na árvore
+        self.texto = texto or '' #texto descritivo do nó
+        self.opcoes = opcoes or {} #opções de nós que poderá ser atingido a partir do nó que você está
+        self.final = final #texto do nó folha, ou seja, o nó que marcará o final do jogo
 
-    def eh_final(self):
+    def eh_final(self): #verificação se o nó é uma folha ou não
         return self.final is not None
 
-# Nós finais
+# construção dos Nós finais, recebe apenas o id e o final como parametros 
 final_topo = No('Arriscar tudo', final="""
 VOCÊ CHEGOU AO TOPO DA MONTANHA!
 O vento sopra forte. O sol nasce.
 Você ergue os braços em vitória!
-PARABÉNS, AVENTUREIRO!
-""")
+PARABÉNS, AVENTUREIRO!""")
 final_sem_saida = No('Parede_de_Pedra', final="""
 CAMINHO SEM SAÍDA
 Você chega a uma parede de pedra lisa.
 Sem equipamentos... só resta voltar.
-Derrota silenciosa...
-""")
+Derrota silenciosa...""")
 final_queda = No('Pular', final="""
 VOCÊ CAIU!!!
 Seus pés escorregam na quando salta.
 Você tenta se agarrar... mas é tarde.
-*Game Over*
-""")
+*Game Over*""")
 final_fog = No('Tentar_atravessar', final="""
 PERDIDO NA NEBLINA
 A névoa engole seus passos.
 Você vaga sem rumo até cair exausto.
-Fim trágico...
-""")
+Fim trágico...""")
 final_sabedoria = No('Falar_com_ancião', final="""
 SABEDORIA DO ANCIÃO
 Um velho guia lhe ensina um caminho secreto.
 Com conhecimento, você atravessa a montanha.
-Vitória pacífica.
-""")
+Vitória pacífica.""")
 final_caverna = No('Entrar_na_caverna', final="""
 CAVERNA ESCURA
 Dentro da caverna você encontra um lago subterrâneo.
 As paredes desabam silenciosamente.
-Você não consegue sair.
-""")
+Você não consegue sair.""")
 final_sucesso_parcial = No('Subir_plataforma', final="""
 MEIO TOPO - parcialmente vitorioso
 Você alcança uma plataforma elevada.
 Não é o topo, mas é um lugar seguro para acampar.
-Missão parcialmente cumprida.
-""")
+Missão parcialmente cumprida.""")
 final_pedra_precaria = No('Passar_pelas_pedras', final="""
 PONTA INSTÁVEL
 Uma pedra onde você pisa se solta.
 Você consegue escapar por pouco, machucado.
-Volte mais preparado.
-""")
+Volte mais preparado.""")
 final_resgate = No('Fazer_sinais_de_socorro', final="""
 RESGATE INESPERADO - Vitória
 Um helicóptero avista sua signal.
 Você é resgatado para segurança.
-Sobrevivência com honra.
-""")
+Sobrevivência com honra.""")
 final_tesouro = No('Pegar_tesouro', final="""
 TESOURO ESCONDIDO - parcialmente vitorioso
 Você encontra um pequeno tesouro deixado por antigos escaladores.
-Não leva ao topo, mas muda seu destino.
-""")
+Não leva ao topo, mas muda seu destino.""")
 passagem_desmoronada = No("Passagem_arriscada", final = """
-A trilha pela lateral do penhasco termina abruptamente. Rochas soltas cedem sob o peso, e a passagem desaba, levando tudo consigo para o abismo abaixo.""" )
+A trilha pela lateral do penhasco termina abruptamente. 
+Rochas soltas cedem sob o peso, e a passagem desaba, levando tudo consigo para o abismo abaixo.""" )
 colapso_final = No("Arriscar_verificar_sala",final="""
-Um estalo seco ecoa pelo ambiente. As engrenagens cedem, puxando vigas e correntes junto. Em segundos, a estrutura inteira começa a desmoronar, soterrando tudo sob metal e pedra.""")
+Um estalo seco ecoa pelo ambiente. As engrenagens cedem, puxando vigas e correntes junto. 
+Em segundos, a estrutura inteira começa a desmoronar, soterrando tudo sob metal e pedra.""")
 final_queda_eixo = No("Verificar_eixo",final="""
-Ao se aproximar do eixo central, o chão cede sem aviso. A queda é rápida e descontrolada, terminando em um impacto seco no fundo da estrutura. A escuridão toma conta, e o moinho finalmente silencia.""")
+Ao se aproximar do eixo central, o chão cede sem aviso. A queda é rápida e descontrolada, 
+terminando em um impacto seco no fundo da estrutura. A escuridão toma conta, e o moinho finalmente silencia.""")
 correnteza_fatal = No("Mergulhar",final="""
-Ao mergulhar a mão na água fria, você consegue agarrar o objeto brilhante: um artefato antigo, coberto por símbolos desgastados. No entanto, o esforço desequilibra seu corpo, e a corrente começa a puxar com mais força.""")
+Ao mergulhar a mão na água fria, você consegue agarrar o objeto brilhante: um artefato antigo, coberto por símbolos desgastados. 
+No entanto, o esforço desequilibra seu corpo, e a corrente começa a puxar com mais força.""")
 emboscada = No("Verificar_sinais",final="""
-Ao seguir os sinais, o silêncio se torna pesado demais. De repente, sombras surgem entre as árvores. Não há tempo para reagir. O caminho era uma armadilha desde o início.""")
-
-ataque_animal = No(
-    "ataque_de_animal",
-    final="""
+Ao seguir os sinais, o silêncio se torna pesado demais. 
+De repente, sombras surgem entre as árvores. Não há tempo para reagir. O caminho era uma armadilha desde o início.""")
+ataque_animal = No("Verificar_barulho", final="""
 Um rosnado ecoa próximo demais.
 Antes que consiga reagir, algo salta da vegetação.
-
 O ataque é rápido, violento e inesperado.
 O terreno irregular impede a fuga,
-e a montanha testemunha mais um fim silencioso.
-"""
-)
-topo_ao_amanhecer = No(
-    "topo_ao_amanhecer",
-    final="""
+e a montanha testemunha mais um fim silencioso.""")
+topo_ao_amanhecer = No( "topo_ao_amanhecer", final="""
 vitória - Exausto, você dá o último passo enquanto o sol começa a surgir no horizonte.
 O topo é alcançado em silêncio, banhado pela luz do amanhecer.
-
 Não há gritos, apenas respiração pesada e alívio.
 A montanha foi vencida.
-Você chegou onde poucos chegam.
-"""
-)
-desaparecido_na_neblina = No(
-    "desaparecido_na_neblina",
-    final="""
+Você chegou onde poucos chegam.""")
+desaparecido_na_neblina = No("ir_na_neblina",final="""
 Seus rastros desaparecem lentamente, engolidos pela névoa.
 Nenhum corpo é encontrado.
-Com o tempo, seu desaparecimento se transforma em lenda.
-"""
-)
-
-erro_de_calculo = No(
-    "erro_de_calculo",
-    final="""
+Com o tempo, seu desaparecimento se transforma em lenda.""")
+erro_de_calculo = No("erro_de_calculo",final="""
 Um passo mal calculado.
 Uma pedra solta.
 Um instante de desequilíbrio.
-A queda é rápida e definitiva.
-"""
-)
-
-refugio_seguro = No(
-    "refugio_seguro",
-    final="""
+A queda é rápida e definitiva.""")
+refugio_seguro = No("refugio_seguro",final="""
 parcialmente vitorioso - Contra todas as expectativas, você encontra um abrigo sólido.
 Não é o topo da montanha,
 mas é sobrevivência.
-Às vezes, vencer é saber parar.
-"""
-)
-
-segredo_da_montanha = No(
-    "segredo_da_montanha",
-    final="""
+Às vezes, vencer é saber parar.""")
+segredo_da_montanha = No("ver_segredo_da_montanha",final="""
 parcialmente vitorioso - Em uma câmara escondida, registros antigos revelam
 por que tantos falharam antes.
-O conhecimento adquirido muda sua visão da montanha para sempre.
-"""
-)
-
-aprisionado_pelo_deslizamento = No(
-    "aprisionado_pelo_deslizamento",
-    final="""
+O conhecimento adquirido muda sua visão da montanha para sempre.""")
+aprisionado_pelo_deslizamento = No("seguir_caminho", final="""
 Um estrondo ecoa pelos picos.
 Rochas e gelo bloqueiam a única saída.
-O silêncio que se segue é absoluto.
-"""
-)
-ataque_pantera = No(
-    "ataque_de_pantera",
-    final="""
+O silêncio que se segue é absoluto.""")
+ataque_pantera = No( "seguir_pegada",final="""
 O silêncio da floresta se torna absoluto.
 Sem aviso, um impacto violento o derruba no chão.
-
 A pantera surge das sombras, rápida e precisa,
 atacando antes mesmo que você consiga vê-la por completo.
 O terreno irregular impede qualquer reação eficaz.
-
 Em poucos segundos, tudo termina.
-A montanha volta ao silêncio, como se nada tivesse acontecido.
-"""
-)
-gps_encontrado = No(
-    "gps_encontrado",
-    final="""
+A montanha volta ao silêncio, como se nada tivesse acontecido.""")
+gps_encontrado = No( "gps", final="""
 Vitória - Entre a neve e equipamentos abandonados, você encontra um GPS ainda funcional.
 A bateria é suficiente e o aparelho marca sua posição com precisão.
 Você não chegou ao topo da montanha,
 mas agora sabe exatamente onde está e como sair com segurança.
-Uma vantagem decisiva conquistada.
-"""
-)
-ataque_de_urso = No(
-    "ataque_de_urso",
-    final="""
+Uma vantagem decisiva conquistada.""")
+ataque_de_urso = No("explorar", final="""
 O silêncio é quebrado por um rosnado grave atrás de você.
 Antes que consiga reagir, um urso emerge da mata, enorme e furioso,
 defendendo território ou cria.
-
 Você tenta recuar, mas o terreno irregular impede a fuga.
 O impacto é brutal.
 A montanha testemunha mais um fim selvagem""")
-mapa_corrigido = No(
-    "mapa_corrigido",
-    final="""
+mapa_corrigido = No("mapa", final="""
 Vitória - Entre papéis rasgados e anotações antigas, você consegue reorganizar um mapa confiável.
 Rotas perigosas ficam claras, assim como um caminho seguro de retorno.
 O topo não foi alcançado,
 mas agora a montanha perdeu parte de seu mistério.
-"""
-)
-rota_segura_descoberta = No(
-    "rota_segura_descoberta",
-    final="""
+""")
+rota_segura_descoberta = No("rota_descoberta",final="""
 parcialmente vitorioso - Após seguir marcas quase apagadas na rocha, você identifica uma rota segura de descida.
 Ela não leva ao topo,
 mas garante que você saia da montanha sem arriscar a vida novamente.
-Conhecimento conquistado.
-"""
-)
-equipamento_recuperado = No(
-    "equipamento_recuperado",
-    final="""
+Conhecimento conquistado.""")
+equipamento_recuperado = No("equipamento",final="""
 parcialmente vitorioso - Você encontra equipamentos deixados por antigos escaladores:
 cordas resistentes, grampos e suprimentos.
 A escalada termina aqui,
-mas agora você possui os meios certos para tentar novamente no futuro.
-"""
-)
-registro_dos_exploradores = No(
-    "registro_dos_exploradores",
-    final="""
+mas agora você possui os meios certos para tentar novamente no futuro.""")
+registro_dos_exploradores = No("registro", final="""
 parcialmente vitorioso - Em um compartimento escondido, você encontra um diário detalhado.
 Relatos de falhas, quedas e decisões erradas revelam como sobreviver à montanha.
 Você não chegou ao topo,
-mas voltou com informações que valem mais que glória.
-"""
-)
-topo_conquistado = No(
-    "topo_conquistado",
-    final="""
+mas voltou com informações que valem mais que glória.""")
+topo_conquistado = No("tentar_subir",final="""
 Após a última subida, o terreno finalmente se estabiliza.
 Você está no topo da montanha.
-
 O vento sopra forte, as nuvens ficam abaixo dos seus pés
 e o mundo parece pequeno diante da conquista.
 Cada risco valeu a pena.
-Vitória absoluta.
-"""
-)
-queda_no_abismo = No(
-    "queda_no_abismo",
-    final="""
+Vitória absoluta.""")
+queda_no_abismo = No("continuar_arriscando",final="""
 Uma rajada de vento forte atinge seu corpo no momento errado.
 O pé escorrega na pedra solta,
-e o mundo se torna apenas queda e silêncio.
-"""
-)
-queda_na_ponte = No(
-    "queda_na_ponte",
-    final="""
+e o mundo se torna apenas queda e silêncio.""")
+queda_na_ponte = No("seguir_na_ponte",final="""
 Uma das tábuas se solta.
 O estalo ecoa alto demais.
-Antes que possa reagir, a ponte cede e você cai no vazio.
-"""
-)
-
-queda_na_encosta = No(
-    "queda_na_encosta",
-    final="""
+Antes que possa reagir, a ponte cede e você cai no vazio.""")
+queda_na_encosta = No("manter_na_encosta",final="""
 As pedras começam a rolar sob seus pés.
 Você tenta se apoiar, mas a encosta inteira desliza.
-A queda é longa e incontrolável.
-"""
-)
-queda_por_deslizamento = No(
-    "queda_por_deslizamento",
-    final="""
+A queda é longa e incontrolável.""")
+queda_por_deslizamento = No("continuar_atravessando", final="""
 As pedras sob seus pés começam a se mover.
 Em segundos, o chão inteiro desliza encosta abaixo.
 Você tenta se firmar, mas é arrastado junto,
-desaparecendo entre rochas e neve.
-"""
-)
+desaparecendo entre rochas e neve.""")
 
-# Dicionário de nós
+# Dicionário onde será armazenado os nós
 nodes = {}
 
-# Função para criar nós
-def N(id, texto=''):
-    caminho = No(id, texto=texto)
-    nodes[id] = caminho
+# Função para criar nós intermediários
+def N(id, texto=''): 
+    caminho = No(id, texto=texto)#a função criará o nó com o id e o texto descritivo
+    nodes[id] = caminho #é adicionado o nó no dicionário criado anteriormente
     return caminho
 
-# Criação dos nós intermediários
+# Criação dos nós intermediários com a função
 inicio = N('Início', """
 A ESCALADA DA MONTANHA PERIGOSA
 Você está na base do Monte da Morte.
@@ -309,9 +219,7 @@ Olhando com calma, você vê algumas pegadas que estão um pouco apagadas e vão
 penhasco = N('Penhasco', """
 Você chega a um penhasco estreito e perigoso.
 Abaixo, um abismo de 200 metros...
-
 Você tem uma corda que pode lançar e tentar atingir o ponto mais alto arriscando tudo, mas há um caminho que aparentemente te leva para uma parede que você pode tentar escalar.
-
 Ao verificar esses caminhos você também vê uma ponte de pedra que pode seguir.
 """)
 acampamento = N('Acampamento', """
@@ -331,7 +239,6 @@ Um caminho estreito segue pela lateral do penhasco. A descida é íngreme e esco
 neblina = N('Neblina', """
 Uma neblina espessa desce rápido.
 Visibilidade quase zero.
-
 Você viu um acampamento antes de chegar na neblina, pode ir até ele...
 Mas está escutando um barulho de água vindo de alguma direção, ou então você se arrisca para atravessar essa neblina...
 """)
@@ -339,7 +246,6 @@ caverna_entrada = N('Entrada_da_Caverna', """
 Você encontra a entrada de uma caverna com inscrições.
 Parece perigoso, mas pode ser um atalho.
 Parece muito tentador entrar nessa caverna para tentar conseguir algo...
-
 Ao olhar as proximidades você vê algumas ruinas que também pode explorar, mas sente uma corrente de ar que parece te chamar...
 """)
 colina = N('Colina', """
@@ -371,7 +277,6 @@ Você também vê um moinho há uma distância e está ouvindo um barulho de met
 ruinas = N('Ruinas', """
 Você encontra ruínas de um antigo abrigo de escaladores.
 Há ferramentas enferrujadas e um mapa rasgado.
-
 As ferramentas não estão servindo, mas o mapa marca uma ponte, pode seguir até ela.
 Você vê também que os escaladores escreveram algo em algumas pedras, você pode seguir o que eles escreveram e investigar
 """)
@@ -410,70 +315,60 @@ ponte_de_pedra = N('Ponte_de_pedra', """
 Uma ponte natural de pedra forma uma passagem estreita.
 Você encontra um refúgio e uma encosta rochosa...
 """)
-riacho = N('Riacho',
-            """Um pequeno riacho corta a trilha. Água limpa, parece potável.
-            Ao seguir o rio você pode chegar em um acampamento...
-            Se preferir arriscar, pode ir seguindo um rastro que viu antes de chegar ao riacho""")
+riacho = N('Riacho',"""
+Um pequeno riacho corta a trilha. Água limpa, parece potável.
+Ao seguir o rio você pode chegar em um acampamento...
+Se preferir arriscar, pode ir seguindo um rastro que viu antes de chegar ao riacho
+""")
 vento_forte = N('Vento_forte',
-                'Ventos fortes sopram pedras soltas. você fica com medo. Você pode ir em passos rasos ou para ir rapidamente até uma ladeira que avistou...')
+'Ventos fortes sopram pedras soltas. você fica com medo. Você pode ir em passos rasos ou para ir rapidamente até uma ladeira que avistou...')
 arvore_caida = N('Arvore_caida',
-                  'Uma árvore caída forma uma ponte sobre um córrego. você atravessa, mas mais a frente há um riacho que dá para atravessar andando ou pode ir até um caminho meio nebuloso')
-pegada = N('Pegada',
-           """Pegadas frescas seguem por uma trilha estreita.
-           Ao chegar em um ponto você vê uma pedra com escritas e uma entrada de caverna.
-           Você percebe que não pode ir em ambos devido a noite que está chegado, então deve escolher...""")
+'Uma árvore caída forma uma ponte sobre um córrego. você atravessa, mas mais a frente há um riacho que dá para atravessar andando ou pode ir até um caminho meio nebuloso')
+pegada = N('Pegada',"""
+Pegadas frescas seguem por uma trilha estreita.
+Ao chegar em um ponto você vê uma pedra com escritas e uma entrada de caverna.
+Você percebe que não pode ir em ambos devido a noite que está chegado, então deve escolher...""")
 trilha_antiga = N('Trilha_antiga',
-                  'Uma trilha antiga com corrimões de madeira fez você chegar em um ponto que deve passar por uma encosta de rochas, não há escolhas')
+'Uma trilha antiga com corrimões de madeira fez você chegar em um ponto que deve passar por uma encosta de rochas, não há escolhas')
 som_metalico = N('Som_metalico',
-                  'Um ruído metálico ecoa entre as pedras, irregular e insistente, como ferro sendo arrastado contra rocha. O som se propaga pelo vale e se mistura ao vento, dificultando saber de onde vem exatamente. Às vezes parece distante, outras vezes próximo demais, fazendo a sensação de estar sendo observado crescer a cada passo.')
+'Um ruído metálico ecoa entre as pedras, irregular e insistente, como ferro sendo arrastado contra rocha. O som se propaga pelo vale e se mistura ao vento, dificultando saber de onde vem exatamente. Às vezes parece distante, outras vezes próximo demais, fazendo a sensação de estar sendo observado crescer a cada passo.')
 estrutura_abandonada = N("Estrutura_ambandonada",
-                         "Entre a vegetação densa e pedras cobertas de musgo, surge uma antiga estrutura de metal, tomada pela ferrugem. Vigas tortas e correntes soltas balançam lentamente, produzindo o som que ecoa pela região. Tudo indica que aquilo foi construído há muito tempo, mas abandonado às pressas.")
+"Entre a vegetação densa e pedras cobertas de musgo, surge uma antiga estrutura de metal, tomada pela ferrugem. Vigas tortas e correntes soltas balançam lentamente, produzindo o som que ecoa pela região. Tudo indica que aquilo foi construído há muito tempo, mas abandonado às pressas.")
 sala_das_engrenagens = N('Sala_das_Engrenagens',
-                         "O interior revela um emaranhado de engrenagens enormes, presas às paredes de pedra. Algumas ainda se movem levemente, rangendo como se estivessem prestes a se soltar. O ar é pesado, impregnado de ferrugem e poeira antiga, e qualquer movimento errado pode provocar um colapso")
+"O interior revela um emaranhado de engrenagens enormes, presas às paredes de pedra. Algumas ainda se movem levemente, rangendo como se estivessem prestes a se soltar. O ar é pesado, impregnado de ferrugem e poeira antiga, e qualquer movimento errado pode provocar um colapso")
 desfiladeiro_estreito = N('Desfiladeiro_Estreito',
-                          "O caminho se fecha abruptamente entre duas paredes altas de pedra, formando um corredor natural. O som metálico se intensifica aqui, reverberando de forma distorcida. Cada passo ecoa, e o espaço apertado dá a sensação de que não há como recuar rapidamente.")
+"O caminho se fecha abruptamente entre duas paredes altas de pedra, formando um corredor natural. O som metálico se intensifica aqui, reverberando de forma distorcida. Cada passo ecoa, e o espaço apertado dá a sensação de que não há como recuar rapidamente.")
 margem_pedregosa = N("Margem_Pedregosa",
-                     "Ao alcançar a outra margem, o terreno se eleva em pedras irregulares. Símbolos rudimentares estão marcados em algumas rochas, como se alguém tivesse deixado avisos ou orientações. O local transmite a sensação de que já foi usado como passagem antes.")
+"Ao alcançar a outra margem, o terreno se eleva em pedras irregulares. Símbolos rudimentares estão marcados em algumas rochas, como se alguém tivesse deixado avisos ou orientações. O local transmite a sensação de que já foi usado como passagem antes.")
 ilhota_submersa = N("Ilhota_Submersa", 
-                    "Uma pequena elevação de pedras emerge no meio da água. Algo reflete a luz sob a superfície, chamando atenção. Porém, o nível da água parece subir lentamente, e a corrente ao redor da ilhota fica cada vez mais forte.")
+"Uma pequena elevação de pedras emerge no meio da água. Algo reflete a luz sob a superfície, chamando atenção. Porém, o nível da água parece subir lentamente, e a corrente ao redor da ilhota fica cada vez mais forte.")
 interior_do_moinho = N("Interior_do_Moinho",
-                       "O interior é escuro e abafado. O chão está coberto de serragem antiga, madeira podre e poeira. No centro, um eixo profundo desce para a escuridão, com um alçapão parcialmente aberto, sugerindo um caminho que poucos ousariam seguir.")
+"O interior é escuro e abafado. O chão está coberto de serragem antiga, madeira podre e poeira. No centro, um eixo profundo desce para a escuridão, com um alçapão parcialmente aberto, sugerindo um caminho que poucos ousariam seguir.")
 caminho_dos_campos = N("Caminho_dos_Campos",
-                       "Um caminho aberto se estende para campos abandonados. A vegetação cresce de forma desordenada, e o silêncio é tão intenso que chega a incomodar. Não há sinais recentes de passagem, apenas o vento balançando a grama seca.")
+"Um caminho aberto se estende para campos abandonados. A vegetação cresce de forma desordenada, e o silêncio é tão intenso que chega a incomodar. Não há sinais recentes de passagem, apenas o vento balançando a grama seca.")
 plataforma_oposta = N("plataforma_oposta",
-                      "Após atravessar a ponte, você alcança uma plataforma de pedra cravada na lateral do penhasco. O local parece ter sido usado como ponto de observação ou apoio, com marcas de ferramentas antigas nas paredes. Daqui, é possível ver boa parte do vale, mas o vento forte dificulta permanecer por muito tempo.")
+"Após atravessar a ponte, você alcança uma plataforma de pedra cravada na lateral do penhasco. O local parece ter sido usado como ponto de observação ou apoio, com marcas de ferramentas antigas nas paredes. Daqui, é possível ver boa parte do vale, mas o vento forte dificulta permanecer por muito tempo.")
 tunel_subterraneo = N("tunel_subterraneo", 
-                      "Um túnel estreito se estende sob o moinho, cavado diretamente na rocha. O ar é frio e úmido, e gotas de água escorrem pelas paredes. O silêncio é quebrado apenas pelo eco distante de passos e pelo som abafado de algo se movendo nas profundezas.")
+"Um túnel estreito se estende sob o moinho, cavado diretamente na rocha. O ar é frio e úmido, e gotas de água escorrem pelas paredes. O silêncio é quebrado apenas pelo eco distante de passos e pelo som abafado de algo se movendo nas profundezas.")
 pegar_objeto = N("pegar_objeto",
-                 "Ao mergulhar a mão na água fria, você consegue agarrar o objeto brilhante: um artefato antigo, coberto por símbolos desgastados. No entanto, o esforço desequilibra seu corpo, e a corrente começa a puxar com mais força.")
+"Ao mergulhar a mão na água fria, você consegue agarrar o objeto brilhante: um artefato antigo, coberto por símbolos desgastados. No entanto, o esforço desequilibra seu corpo, e a corrente começa a puxar com mais força.")
 trilha_escura = N("trilha_escura",
-                  "A trilha se estreita e a luz natural quase desaparece. Árvores densas bloqueiam o céu, e o chão está coberto por folhas úmidas que abafam os passos. É impossível saber se alguém observa das sombras.")
-trilha_dos_ossos = N(
-    "trilha_dos_ossos",
-    """O caminho se estreita e ossos antigos aparecem parcialmente enterrados na neve. 
-    Alguns parecem humanos. O vento sopra entre eles, produzindo um som estranho, 
-    como um aviso silencioso deixado pela montanha."""
-)
+"A trilha se estreita e a luz natural quase desaparece. Árvores densas bloqueiam o céu, e o chão está coberto por folhas úmidas que abafam os passos. É impossível saber se alguém observa das sombras.")
+trilha_dos_ossos = N("trilha_dos_ossos",
+"""O caminho se estreita e ossos antigos aparecem parcialmente enterrados na neve. 
+Alguns parecem humanos. O vento sopra entre eles, produzindo um som estranho, 
+como um aviso silencioso deixado pela montanha.""")
+campo_das_cruzes = N("campo_das_cruzes",
+"""Cruzes de madeira tortas surgem fincadas no solo congelado. Algumas carregam nomes apagados 
+pelo tempo, outras estão quebradas, como se até a memória dos que falharam estivesse se desfazendo.""")
+eco_na_neblina = N("eco",
+"""Um grito distante ecoa através da névoa densa. Não é possível saber se alguém pede ajuda
+ou se o vento brinca com sua mente, testando seus nervos.""")
+escadaria_de_pedra = N("escadaria_de_pedra",
+"""Degraus antigos surgem cravados diretamente na rocha. Muitos estão quebrados ou cobertos 
+por gelo, e não há proteção alguma entre você e o abismo ao lado.""")
 
-campo_das_cruzes = N(
-    "campo_das_cruzes",
-    """Cruzes de madeira tortas surgem fincadas no solo congelado. Algumas carregam nomes apagados 
-    pelo tempo, outras estão quebradas, como se até a memória dos que falharam estivesse se desfazendo."""
-)
-
-eco_na_neblina = N(
-    "eco",
-    """Um grito distante ecoa através da névoa densa. Não é possível saber se alguém pede ajuda
-    ou se o vento brinca com sua mente, testando seus nervos."""
-)
-escadaria_de_pedra = N(
-    "escadaria_de_pedra",
-    """Degraus antigos surgem cravados diretamente na rocha. Muitos estão quebrados ou cobertos 
-    por gelo, e não há proteção alguma entre você e o abismo ao lado."""
-)
-
-
-# Conexões
+# Conexões, adição das opções dos nós, ou seja, os ramos de cada um.
 inicio.opcoes = {'1': floresta, 
                  '2': colina}
 floresta.opcoes = {'1': rio}
@@ -524,10 +419,8 @@ passo_raso.opcoes = {'1': margem_pedregosa,
                      '2': ilhota_submersa}
 margem_pedregosa.opcoes = {'1': ponte_suspensa,}
 ilhota_submersa.opcoes = {'1': pegar_objeto,
-                   '2': correnteza_fatal}
-pegar_objeto.opcoes = {
-    '1': gps_encontrado,
-}
+                          '2': correnteza_fatal}
+pegar_objeto.opcoes = {'1': gps_encontrado,}
 refugio.opcoes = {'1': acampamento, 
                   '2': trilha_dos_sinais,
                   '3': explorar_acampamento}
@@ -550,28 +443,17 @@ som_metalico.opcoes = {'1': estrutura_abandonada,
 estrutura_abandonada.opcoes = { '1':sala_das_engrenagens,
                         '2': trilha_escura}
 sala_das_engrenagens.opcoes = {'1': colapso_final}
-desfiladeiro_estreito.opcoes = {'1': registro_dos_exploradores,
-}
-plataforma_oposta.opcoes = {
-    '1':escadaria_de_pedra,
-    '2':campo_das_cruzes
-}
-escadaria_de_pedra.opcoes ={
-    '1':erro_de_calculo,
-    '2':topo_ao_amanhecer
-}
-trilha_dos_ossos.opcoes = {
-    '1':refugio_seguro
-}   
-campo_das_cruzes.opcoes = {
-    '1': aprisionado_pelo_deslizamento,
-    '2': segredo_da_montanha
-}
-eco_na_neblina.opcoes = {
-    '1': desaparecido_na_neblina
-}
+desfiladeiro_estreito.opcoes = {'1': registro_dos_exploradores,}
+plataforma_oposta.opcoes = {'1':escadaria_de_pedra,
+                            '2':campo_das_cruzes}
+escadaria_de_pedra.opcoes ={'1':erro_de_calculo,
+                            '2':topo_ao_amanhecer}
+trilha_dos_ossos.opcoes = {'1':refugio_seguro}   
+campo_das_cruzes.opcoes = {'1': aprisionado_pelo_deslizamento,
+                           '2': segredo_da_montanha}
+eco_na_neblina.opcoes = {'1': desaparecido_na_neblina}
 
-
+#criação de uma lista com o inicio e os finais
 inicio_finais = [
     inicio, final_topo, final_sem_saida, final_queda, final_fog,
     final_sabedoria, final_caverna, final_sucesso_parcial,
@@ -584,106 +466,107 @@ inicio_finais = [
     queda_por_deslizamento, ataque_de_urso, ataque_pantera, topo_conquistado, ataque_animal,
     topo_ao_amanhecer
 ]
-
+#adição de cada elemento da lista anterior no dicionário de armazenamento dos nós
 for f in inicio_finais:
     nodes[f.id] = f
 
-# Funções auxiliares 
+# Funções auxiliares
+# função com for recebendo o nó para listar as opções de caminhos/ramos
 def listar_opcoes(caminho):
-    items = []
-    for i, (label, destino) in enumerate(caminho.opcoes.items(), start=1):
-        descricao = getattr(destino, 'texto', '')
-        descricao_short = descricao.strip().splitlines()[0] if descricao else destino.id
-        items.append((str(i), descricao_short, destino.id, label))
+    items = [] #lista para armazenar as opções 
+    for i, (label, destino) in enumerate(caminho.opcoes.items(), start=1): #desempacotamento das opções colocando uma numeração
+        descricao = getattr(destino, 'texto', '') #puxa o texto descritivo do destino
+        descricao_short = descricao.strip().splitlines()[0] if descricao else destino.id #corta o texto descritivo para apenas a primeira linha depois que divide com o splitlines
+        items.append((str(i), descricao_short, destino.id, label)) #adiciona na lista de opções como uma tupla
     return items
 
 # Função jogar 
 def jogar():
-    limpar()
+    limpar() #chama a função que utiliza do módulo os para limpar a tela
     print("Bem-vindo à".center(70))
     print("ESCALADA: Chegue ao topo ou não".center(70))
-    time.sleep(1)
-    atual = inicio
-    while True:
+    time.sleep(1) #espera 1s para executar os próximos códigos
+    atual = inicio #inicia o jogo no nó chamado inicio
+    while True: #loop principal
         limpar()
-        print(f"Local: {atual.id}\n")
+        print(f"Local: {atual.id}\n") 
         print(atual.texto)
-        if atual.eh_final():
+        if atual.eh_final(): #verifica se o nó que o usuário está é um nó final ou intermediário
             print(atual.final)
             break
-        lista_opcoes = listar_opcoes(atual)
-        if not lista_opcoes:
+        lista_opcoes = listar_opcoes(atual) #chama a função de listar as opções do nó atual
+        if not lista_opcoes: #caso não tenha opções definidas para aquele nó
             print("Não há caminhos daqui — fim prematuro.")
             break
         print('\nO que você faz?')
-        for numero_opcao, descricao, id_destino, rotulo_original in lista_opcoes:
+        for numero_opcao, descricao_short, id_destino, rotulo_original in lista_opcoes:#for para exibir as opções
             print(f"{numero_opcao}. Ir para: {id_destino}")
         print("0. Sair do jogo")
         escolha = input("Sua escolha: ").strip()
         if escolha == '0':
             print("Você decidiu abandonar a escalada. Fim de jogo.")
-            break
-        try:
-            n = int(escolha)
+            break #caso o usuário decida sair, o jogo finaliza
+        try:#tratar erro
+            n = int(escolha) #conversão do que é digitado na escolha para int 
             if 1 <= n <= len(lista_opcoes):
-                _, _, id_destino, rotulo_original = lista_opcoes[n - 1]
+                _, _, id_destino, rotulo_original = lista_opcoes[n - 1] #_ é para ignorar os valores que nao influenciarão
                 destino = atual.opcoes[rotulo_original]
                 print(f"\nIndo para {destino.id}...")
                 time.sleep(0.8)
-                atual = destino
+                atual = destino #o atual sempre será atualizado para o nó que o usuário estiver escolhido
                 continue
             else:
-                raise ValueError
+                raise ValueError #caso o valor passado não seja numero
         except Exception:
             print("Escolha inválida — tente novamente.")
             time.sleep(1)
             continue
 
-# Nova função para gerar mapa com graphviz
+#Função para gerar mapa com graphviz
 def gerar_mapa():
-    dot = graphviz.Digraph("Escalada da Montanha Perigosa", format="png")
-    dot.attr(rankdir="TB", size="25,30!", dpi="200")
-    dot.attr("node", shape="box", style="filled,rounded", fontname="Helvetica", fontsize="10")
+    dot = graphviz.Digraph("Escalada da Montanha Perigosa", format="png") #cria o gráfico direcionado
+    dot.attr(rankdir="TB", size="25,30!", dpi="200") #Define atributos globais do grafo, direção, tamanho e resolução
+    dot.attr("node", shape="box", style="filled,rounded", fontname="Helvetica", fontsize="10") #Define atributos padrão para todos os nós.
 
     # Adiciona todos os nós
     for no_id, no in nodes.items():
-        label = f"{no.id}..."
-        if no.eh_final():
-            if "vitória" in no.final.lower():
+        label = f"{no.id}" #texto exibido no nó
+        if no.eh_final(): #verifica se o nó é folha
+            if "vitória" in no.final.lower(): #configuração do nó final com texto de vitória em sua descrição
                 dot.node(no_id, label, fillcolor="limegreen" , fontcolor="white", style="filled,bold")
-            elif "parcialmente vitorioso" in no.final.lower():
+            elif "parcialmente vitorioso" in no.final.lower(): #configuração do nó final com texto de parcialmente vitorioso em sua descrição
                 dot.node(no_id, label, fillcolor="yellow", style="filled,bold")
-            else:
+            else: #configuração padrão para nós de derrota
                 dot.node(no_id, label, fillcolor="firebrick", fontcolor="white", style="filled,bold")
                 
-        elif no_id == "Início":
+        elif no_id == "Início": #configuração do nó raiz
             dot.node(no_id, label, fillcolor="lightgrey", style="filled,bold")
-        else:
+        else: #configuração dos nós intermediários
             dot.node(no_id, label, fillcolor="lightskyblue", style="filled")
 
-    # Adiciona arestas
+    # Adiciona setas que mostram o caminho
     for no_id, no in nodes.items():
-        for rotulo, dest in no.opcoes.items():
+        for rotulo, dest in no.opcoes.items(): #configuração visual das setas a depender do seu destino
             estilo = {"color": "darkgreen", "penwidth": "3"} if dest.eh_final() and "vitória" in dest.final.lower() else {"color": "yellow", "penwidth": "3"} if dest.eh_final() and "parcialmente vitorioso" in dest.final.lower() else \
                      {"color": "red", "penwidth": "2"} if dest.eh_final() else {"color": "gray"}
             dot.edge(no_id, dest.id, label=rotulo, **estilo)
 
     # Renderiza e exibe
-    dot.render("escalada_mapa", format="png", cleanup=True)
-    dot.render("escalada_mapa", format="pdf", cleanup=True)
-    display(Image("escalada_mapa.png"))
-    print(f"Mapa gerado! {len(nodes)} nós visualizados.")
+    dot.render("escalada_mapa", format="png", cleanup=True) #geração da imagem em png
+    dot.render("escalada_mapa", format="pdf", cleanup=True) #geração da imagem em pdf
+    display(Image("escalada_mapa.png")) #caso use o notebook para testar o código
+    print(f"Mapa gerado! {len(nodes)} nós visualizados.") #exive a confirmação da quantidade de nós 
 
 # Loop principal com opção de mapa
 while True:
-    jogar()
-    again = input("\nDeseja jogar novamente? (s/n): ").strip().lower()
-    if again != 's':
+    jogar() #função principal do jogo
+    again = input("\nDeseja jogar novamente? (s/n): ").strip().lower() 
+    if again not in ['s', 'sim', 'y','yes']: #caso o jogador não queira jogar novamente, basta digitar qualquer coisa diferente dos termos da lista
         limpar()
         print("Obrigado por jogar! Até a próxima escalada.")
         time.sleep(1.5)
         ver_mapa = input("Ver mapa da árvore de decisão? (s/n): ").strip().lower()
-        if ver_mapa in ['s', 'sim']:
+        if ver_mapa in ['s', 'sim', 'y','yes']: #caso o jogador queira ver o mapa completo
             gerar_mapa()
             break
         break
