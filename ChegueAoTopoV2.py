@@ -440,5 +440,4 @@ while True:
         if ver_mapa in ['s', 'sim']:
             gerar_mapa()
             break
-
         break
